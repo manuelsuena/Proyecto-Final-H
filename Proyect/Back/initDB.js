@@ -8,17 +8,17 @@ const { formatDateToDB } = require('./helpers');
 
 const args = process.argv;
 
-const addData = args[2] === '--data';
+const addData = args[2] === "--data";
 
 async function main() {
   // Get reference to db
   const connection = await getConnection();
 
-  console.log('Dropping tables');
-  await connection.query('DROP TABLE IF EXISTS idea');
-  await connection.query('DROP TABLE IF EXISTS rating');
-  await connection.query('DROP TABLE IF EXISTS usuario');
-  await connection.query('DROP TABLE IF EXISTS comentario');
+  console.log("Dropping tables");
+  await connection.query("DROP TABLE IF EXISTS usuario");
+  await connection.query("DROP TABLE IF EXISTS idea");
+  await connection.query("DROP TABLE IF EXISTS rating");
+  await connection.query("DROP TABLE IF EXISTS comentario");
 
   // Create table usuario
   await connection.query(`
@@ -51,7 +51,7 @@ async function main() {
         fecha_creacion datetime,
         fecha_modificacion datetime,
         id_usuario int,
-        constraint fk_idea_usuario FOREIGN KEY (id_usuario) references usuario(id_usuario),
+        constraint fk_idea_usuario FOREIGN KEY (id_usuario) references usuario(id_usuario) on DELETE SET NULL,
         primary key (id_idea)
     )
   `);
@@ -61,13 +61,13 @@ async function main() {
     CREATE TABLE rating (
         id_rating int  auto_increment,
         cantidad_voto int,
-        puntaje float,
+        puntaje varchar(255) FLOAT(1,1),
         fecha_creacion datetime,
         fecha_modificacion datetime,
         id_idea int,
         id_usuario int,
-        constraint fk_idea_rating foreign key(id_idea) references idea(id_idea),
-        constraint fk_usuario_rating foreign key(id_usuario) references usuario(id_usuario),
+        constraint fk_idea_rating foreign key(id_idea) references idea(id_idea) on DELETE CASCADE,
+        constraint fk_usuario_rating foreign key(id_usuario) references usuario(id_usuario) on DELETE CASCADE,
         primary key (id_rating)
     )
   `);
@@ -81,18 +81,18 @@ async function main() {
         fecha_modificacion datetime,
         id_idea int,
         id_usuario int,
-        constraint fk_idea_comentario foreign key(id_idea) references idea(id_idea),
-        constraint fk_usuario_comentario foreign key(id_usuario) references usuario(id_usuario),
+        constraint fk_idea_comentario foreign key(id_idea) references idea(id_idea) on DELETE CASCADE,
+        constraint fk_usuario_comentario foreign key(id_usuario) references usuario(id_usuario) on DELETE CASCADE,
         primary key (id_comentario)
     )
   `);
 
 
   // Create initial user
-  const contrasena = await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD, 10);
+   const contrasena = await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD, 10);
 
   await connection.query(`
-        INSERT INTO usuario(fecha_creacion, last_password_update, email, contrasena, role, nombre,apellidos,nickname, activo)
+        INSERT INTO usuario(fecha_creacion, last_password_update, email, contrasena, role, nombre,apellidos,nickname, activo, registration_code)
         VALUES(NOW(), NOW(), "suenomanuel@hotmail.com", "${contrasena}", "admin", "Manuel","Rodriguez","Mr", true)
       `);
 
@@ -107,8 +107,8 @@ async function main() {
       const password = await bcrypt.hash(faker.internet.password(), 10);
 
       await connection.query(`
-        INSERT INTO usuario(fecha_creacion, last_password_update, email, contrasena, role, nombre,apellidos,nickname, active)
-        VALUES(NOW(), NOW(), "${email}", "${password}", "normal", "${faker.name.firstName()}", "${faker.name.lastName()}","${faker.name.prefijo()}",true, )
+        INSERT INTO usuario (fecha_creacion, last_password_update, email, contrasena, role, nombre,apellidos,nickname, active)
+        VALUES(NOW(), NOW(), "${email}", "${password}", "normal", "${faker.name.firstName()}", "${faker.name.lastName()}","${faker.name.prefijo()}",true )
       `);
     }
 
@@ -137,12 +137,13 @@ async function main() {
       )}", ${id_usuario})
       `);
     }
+    console.log("Example data added");
   }
 
   console.log('Initial structure created');
 
   connection.release();
   process.exit();
-}
+} 
 
 main();

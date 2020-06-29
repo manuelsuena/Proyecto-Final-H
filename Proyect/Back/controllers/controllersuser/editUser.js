@@ -25,7 +25,7 @@ async function editUser(req, res, next) {
     const [
       current
     ] = await connection.query(
-      'select id_usuario, avatar from usuario where id_usuario=?',
+      'select id_usuario, avatar, nombre, apellidos, nickname from usuario where id_usuario=?',
       [id]
     );
 

@@ -59,7 +59,7 @@ async function sendEmail({ email, title, content }) {
 
   const msg = {
     to: email,
-    from: 'manuelsuena@gmail.com',
+    from: 'manuelsuenar@gmail.com',
     subject: title,
     text: content,
     html: `<div>

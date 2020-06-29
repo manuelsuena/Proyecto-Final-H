@@ -13,7 +13,7 @@ async function voteIdea(req, res, next) {
       // Validate payload
       await voteSchema.validateAsync(req.body);
   
-      const { vote } = req.body;
+      const { voto } = req.body;
   
       const connection = await getConnection();
   
@@ -45,10 +45,10 @@ async function voteIdea(req, res, next) {
   
       //Voto
       await connection.query(
-        `
-        INSERT INTO rating(id_idea, puntaje, fecha_creacion, id_usuario) 
-        VALUES(?, ?, now(), ?)`,
-        [id, vote, req.auth.id]
+         `INSERT INTO rating (id_idea, puntaje, fecha_creacion, id_usuario) 
+        VALUES(?, ?, now(), ?)`, 
+        
+        [id, voto, req.auth.id]
       );
   
       connection.release();

@@ -1,39 +1,47 @@
-require('dotenv').config();
+  require('dotenv').config();
+
 const { getConnection } = require('../../db');
 const { generateError } = require('../../helpers');
 
 async function getIdea (req, res, next) {
-    try {
-      const { id } = req.params;
-  
-      const connection = await getConnection();
+  let connection;
+  try {
+    const { id } = req.params;
 
-      const [result] = await connection.query(
-        `select i.titulo, i.description, i.categoria, i.visita, avg(r.puntaje) as rating, c.mensaje AS comentario
-        from idea i
-        INNER JOIN rating r on i.id_idea = r.id_idea_puntaje
-        INNER JOIN comentario c on i.id_idea = c.id_idea_mensaje
+    connection = await getConnection();
+
+    const [
+      result
+    ] = await connection.query(
+      `select id_idea, titulo, descripcion, categoria, visita
+        from idea 
         WHERE id_idea= ?`,
-        [id]
+      [id]
+    );
+
+    if (!result.length) {
+      throw generateError(
+        `La idea  no existe.`,
+        404
       );
-  
-      if (!result[0].id) {
-        const error = new Error(`The entry with id ${id} does not exist`);
-        error.httpCode = 404;
-        throw error;
-      }
-  
+    }
+    const [ideaData] = result;
+
+
+
+
+    res.send({
+      status: 'ok',
+      data: ideaData,
+    });
+  } catch (error) {
+    next(error);
+  } finally {
+    if (connection) {
       connection.release();
-  
-      res.send({
-        status: 'ok',
-        data: result[0]
-      });
-    } catch (error) {
-      next(error);
     }
   }
-
+}
   module.exports = { getIdea };
   
   

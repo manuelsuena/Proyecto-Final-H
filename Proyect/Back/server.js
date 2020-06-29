@@ -27,10 +27,11 @@ const { deleteIdea } = require('./controllers/controllersidea/deleteidea');
 const { editIdea } = require('./controllers/controllersidea/editidea');
 const { getIdea} = require('./controllers/controllersidea/getidea');
 const { listIdea } = require('./controllers/controllersidea/listidea');
-const { comentarIdea, getIdeaMensaje, DeleteIdeaMensaje } = require('./controllers/controllersidea/mensajeidea');
+const { comentarIdea, getIdeaMensajes, DeleteIdeaMensaje, userMensaje} = require('./controllers/controllersidea/mensajeidea');
 const { newIdea} = require('./controllers/controllersidea/newidea');
 const { visitNew} = require('./controllers/controllersidea/newvisit');
 const { voteIdea, getIdeaVotes } = require('./controllers/controllersidea/votoidea');
+const {getMyIdea, userIdea} = require('./controllers/controllersidea/myidea');
 
 // Auth middlewares
 const { userIsAuthenticated, userIsAdmin } = require('./middleware/auth');
@@ -48,27 +49,31 @@ app.use(fileUpload());
 app.get('/user/validate',validateUser);
 app.post('/user', newUser);
 app.get('/user/:id', userIsAuthenticated, getUser);
-app.post('user/login', loginUser);
+app.get('/useridea/:id',userIsAuthenticated, userIdea);
+app.post('/user/login', loginUser);
 app.put('/user/:id', userIsAuthenticated, editUser);
 app.put('/user/password/:id', userIsAuthenticated, editPassword);
 app.delete('/user/:id',userIsAuthenticated, userIsAdmin, deleteUser);
 
+
 //Routes ideas
 app.get('/ideas', listIdea);
 app.post('/ideas', userIsAuthenticated, newIdea);
-app.delete('/ideas/:id', userIsAuthenticated, userIsAdmin, deleteIdea);
+app.delete('/ideas/del/:id', userIsAuthenticated, userIsAdmin, deleteIdea);
 app.put('/ideas/:id', userIsAuthenticated, editIdea);
 app.get('/ideas/:id',userIsAuthenticated, getIdea, visitNew);
+app.get('/informacion/:id', getMyIdea, userIsAuthenticated);
 
 ////Routes votos
-app.post('/ideas/:id/vote', userIsAuthenticated, voteIdea);
+app.post('/ideas/vote/:id', userIsAuthenticated, voteIdea);
 app.get('/user/:id/vote', userIsAuthenticated, getIdeaVotes);
 
 ////Routes message
 
-app.post('/user/:id/message', userIsAuthenticated, comentarIdea);
-app.get('/user/:id/message', userIsAuthenticated, getIdeaMensaje);
-app.delete('/user/:id/message', userIsAuthenticated, userIsAdmin, DeleteIdeaMensaje );
+app.post('/user/message/:id', userIsAuthenticated, comentarIdea);
+app.get('/user/messages/:id',userIsAuthenticated, getIdeaMensajes);
+app.get('/user/message/:id', userIsAuthenticated, userMensaje)
+app.delete('/user/message/:id', userIsAuthenticated, userIsAdmin, DeleteIdeaMensaje );
 
 //Error middleware
 app.use((error, req, res, next) =>{

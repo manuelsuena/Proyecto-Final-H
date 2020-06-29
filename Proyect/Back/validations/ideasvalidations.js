@@ -1,8 +1,9 @@
 const joi = require('@hapi/joi');
-const { generateError } = require('../../helpers');
+const { generateError } = require('../helpers');
 
 const ideaSchema = joi.object().keys({
     titulo: joi.string()
+    .min(2)
       .max(50)
       .required()
       .error(
@@ -12,6 +13,7 @@ const ideaSchema = joi.object().keys({
         )
       ),
     descripcion: joi.string()
+      .min(2)
       .max(500)
       .required()
       .error(
@@ -21,6 +23,7 @@ const ideaSchema = joi.object().keys({
         )
       ),
       categoria: joi.string()
+      .min(2)
       .max(20)
       .required()
       .error(
@@ -57,14 +60,13 @@ const ideaSchema = joi.object().keys({
 
 
   const mensajeSchema = joi.object().keys({
-    mensaje: joi.number()
+    mensaje: joi.string()
       .min(1)
-      .max(5)
-      .integer()
+      .max(255)
       .required()
       .error(
         generateError(
-          'El campo voto debe existir y ser un número entre 1 y 5',
+          'El campo mensaje debe contener entre 1 y 255  caracteres',
           400
         )
       )

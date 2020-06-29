@@ -1,8 +1,8 @@
 const joi = require('@hapi/joi');
-const { generateError } = require('../../helpers');
+ const { generateError } = require('../helpers'); 
 
  const contrasena = joi.string()
-  .min(5)
+  .min(6)
   .max(10)
   .required()
   .error(new Error('La contraseña debe tener ente 5 y 10 caracteres'));
@@ -20,7 +20,7 @@ const { generateError } = require('../../helpers');
 
 
   const apellidos = joi.string()
-  .min(3)
+  .min(4)
   .max(50)
   .required()
   .error(new Error('Los apellidos tienen que tener entre 3 y 50 caracteres'));
@@ -60,6 +60,5 @@ const { generateError } = require('../../helpers');
       newUserSchema,
       editUserSchema,
       changePasswordSchema,
-      loginSchema
+      loginSchema,
   };
-  

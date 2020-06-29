@@ -10,15 +10,15 @@ const { loginSchema } = require('../../validations/uservalidations');
 async function loginUser(req, res, next) {
   let connection;
   try {
-    const { email, contrasena } = req.body;
+  
     await loginSchema.validateAsync(req.body);
-
+    const { email, contrasena } = req.body;
     connection = await getConnection();
 
     const [
       dbUser
-    ] = await connection.query(
-      'select id_usuario, email, contrasena, role from usuario where email=? and activo=1',
+     ] = await connection.query(
+      'SELECT id_usuario, email, contrasena, role FROM usuario where email=? and activo=1',
       [email]
     );
 
@@ -45,7 +45,12 @@ async function loginUser(req, res, next) {
     res.send({
       status: 'ok',
       message: 'Login Correcto. Bienvenido!',
-      data: token
+      data: {
+        token,
+        id: usuario.id_usuario, 
+        role: usuario.role, 
+        nombre: usuario.nombre,
+      } 
     });
   } catch (error) {
     next(error);

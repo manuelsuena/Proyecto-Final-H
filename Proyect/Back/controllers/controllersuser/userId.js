@@ -31,7 +31,8 @@ async function getUser(req, res, next) {
     role: userData.role,
     apellidos: userData.apellidos,
     nickname: userData.nickname,
-    avatar: userData.avatar
+    avatar: userData.avatar,
+    email: userData.email,
     };
 
 

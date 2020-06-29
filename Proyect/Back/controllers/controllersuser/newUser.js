@@ -7,7 +7,7 @@ const {
   generateError,
   randomString,
   sendEmail
-} = require('../../helpers');
+           } = require('../../helpers');
 
 const { newUserSchema } = require('../../validations/uservalidations');
 

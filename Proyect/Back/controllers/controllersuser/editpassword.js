@@ -53,8 +53,10 @@ async function editPassword(req, res, next) {
 
    
     await connection.query(
-      'update usuario set contrasena=?, last_password_update=NOW(), where id_usuario =?',
-      [dbNewPassword, id]
+      'update usuario set contrasena=?, last_password_update=NOW() where id_usuario=?',
+      [dbNewPassword, 
+      id
+    ]
     );
 
     res.send({
