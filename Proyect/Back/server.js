@@ -61,8 +61,9 @@ app.get('/ideas', listIdea);
 app.post('/ideas', userIsAuthenticated, newIdea);
 app.delete('/ideas/del/:id', userIsAuthenticated, userIsAdmin, deleteIdea);
 app.put('/ideas/:id', userIsAuthenticated, editIdea);
-app.get('/ideas/:id',userIsAuthenticated, getIdea, visitNew);
+app.get('/ideas/:id',userIsAuthenticated, getIdea);
 app.get('/informacion/:id', getMyIdea, userIsAuthenticated);
+app.post('/ideas/visit/:id',userIsAuthenticated, visitNew)
 
 ////Routes votos
 app.post('/ideas/vote/:id', userIsAuthenticated, voteIdea);

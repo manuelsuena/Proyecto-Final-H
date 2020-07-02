@@ -1,13 +1,17 @@
 <template>
-  <div >
+  <div class="main">
      <!-- Menú de la página  -->
+     <div class="menu">
   <MenuCustom> </MenuCustom>
+  </div>
 
 <!-- Se aplica el cambio de nombre-->
   <vue-headful title="About"
      description=" Información sobre el Autor."/>
+     <br>
+     <h2> Perfil del creador web:</h2>
 
-    <p> Hola como están, el creador de esta página es Manuel Suena:</p>
+    <p> Hola como están,  mi nombre es Manuel Suena:</p>
       <!--Imagen   -->
 <img src="../assets/fotom.png" alt="Foto del autor">
 
@@ -28,9 +32,11 @@
       <a href="https://www.npmjs.com/package/jsonwebtoken">jsonwebtoken</a>
      
       <a href="https://www.npmjs.com/package/axios">AXIOS</a>
+
+      <div class="footer">
       
       <FooterCustom>     </FooterCustom> 
-
+  </div>
    </div>
 </template>
 
@@ -61,14 +67,33 @@ export default {
 /*   width: 100%;
   background: cadetblue;
   color: black; */
-  div {
-  background: rgb(233, 214, 190);
-  color: black;
-  text-align: center;
+  .main {
+  width: 100%;
+  background-image: url(../assets/about.png);
+    background-repeat: no-repeat;
+    background-size: 1700px 950px;
+    height: 950px;
+   color: white;
+   text-align: center;
+   font-size: 1.15rem;
 }
 
 a{
   margin: 2rem;
   padding: 1rem;
+  color: rgb(125, 226, 43);
+}
+.footer{
+  margin-left: 37rem;
+    margin-top: 7rem;
+    color: white;
+    background: white;
+    width: 20%;
+}
+.menu {
+    margin-left: 37rem;
+    color: white;
+    background: white;
+    width: 25%;
 }
 </style>

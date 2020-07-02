@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
 
               <!-- Se aplica el cambio de nombre-->
             <vue-headful title="Profile"
@@ -9,16 +9,18 @@
       <MenuCustom> </MenuCustom>
     
                <!--Elementos HTML  -->
+    <div class="dataIni">
    <h2> Perfil de: {{usuario.nombre}} </h2>
    <p> Información del usuario</p>
-   <p> Nombre: {{usuario.nombre}}</p>
-   <p> Apellidos: {{usuario.apellidos}}</p>
-   <p> Nickname: {{usuario.nickname}}</p>
-   <p> Email: {{usuario.email}}</p>
+   <p> <strong> Nombre: </strong>  {{usuario.nombre}}</p>
+   <p> <strong>  Apellidos: </strong> {{usuario.apellidos}}</p>
+   <p> <strong>  Nickname:</strong> {{usuario.nickname}}</p>
+   <p> <strong> Email: </strong> {{usuario.email}}</p>
    <button @click="showEditUser()"> modificar</button>
 
+      </div>
         <div class="editData" v-show="showEdit">
-      <p>Modifica tus datos</p>
+      <h3>Modifica tus datos:</h3>
       <label for="name">Nombre:</label>
       <input type="text" v-model="newNombre" placeholder="nombre" />
       <label for="name">Apellidos:</label>
@@ -30,15 +32,13 @@
    
       <br />
       </div>
-      <div v-show="showIdea">
-           <h2> Ideas de: {{usuario.nombre}} </h2>
 
-   <h3>  {{idea.titulo}}</h3>
-   <p> Categoria: {{idea.categoria}}</p>
-   <p>  {{idea.description}}</p>
-      </div>
-
+<div class="footer">
  <FooterCustom> </FooterCustom>
+</div>
+
+
+
   </div>
 </template>
 
@@ -127,15 +127,51 @@ export default {
 </script>
 
 <style scoped>
+.main {
+  width: 100%;
+  background-image: url(../assets/backla.png);
+    background-repeat: no-repeat;
+    background-size: 1700px 950px;
+    height: 950px;
+    color: black;
+}
 
 
 button{
     padding: 0.7rem;
-    background: rgb(224, 255, 251);
+    background: rgb(61, 150, 223);
     color: black;
+    font-size: 1rem;
+     margin: 1.5rem;
 }
 h2{
-    color: blue;
+    color: rgb(0, 101, 216);
+  
+}
+
+.editData {
+  margin: 1rem;
+  background: white;
+  width: 60%;
+  margin-left: 20rem;
+  padding: 1rem;
+}
+
+.editData h3 {
+  color:  rgb(0, 101, 216);
+}
+.footer{
+  padding: 12rem;
+}
+
+.dataIni{
+  background: white;
+  width: 25%;
+  padding: 1rem;
+  display: inline-block;
+}
+input{
+  margin: 0.5rem;
 }
 </style>
 

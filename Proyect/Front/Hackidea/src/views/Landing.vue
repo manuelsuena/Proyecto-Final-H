@@ -12,7 +12,7 @@
                <!--Elementos HTML  -->
    <h2 id="titulo"> Página principal de las ideas o preguntas </h2>
    <div class="ideasp" v-for="(idea, index) in ideas" :key="idea.id">  
-   <p>{{idea.id_idea}}</p>
+   <p id="idIdeas"> {{idea.id_idea}}</p>
    <h3> {{idea.titulo}}</h3>
    <p> Categoria: {{idea.categoria}}</p>
    <p> {{idea.descripcion}}</p>
@@ -46,7 +46,7 @@
              <div class="rating" v-show="newRating">
 
              <Label for="voto"> Voto: </Label>
-             <input type="number" name="voto" placeholder="nuevo voto"
+             <input type="text" name="voto" placeholder="nuevo voto"
              v-model="puntaje">
              <button @click="addVoto(index)"> enviar </button>
             </div>
@@ -63,10 +63,6 @@
               </div>
             
         </div>
-    
-
-     
-
  <FooterCustom> </FooterCustom>
   </div>
 </template>
@@ -80,7 +76,7 @@ import IdeasCustom from '@/components/IdeasCustom.vue'
 import Swal from "sweetalert2";
 
 export default {
-    name: 'IdeaL',
+    name: 'Landing',
     components:{
            FooterCustom,
            MenuCustom,
@@ -99,7 +95,8 @@ export default {
             mensajes: '',
             makeNewComment: false,
             newRating: false,
-            puntaje:'',
+            puntaje: '',
+            visita: '',
         }
     },
 
@@ -125,7 +122,9 @@ export default {
       this.getIdeaInd(index);
       this.getComentarios(index);
       this.getUserInd(index);
+      this. addVisita(index);
        console.log(msg)
+
     },
 
       getIdeaInd(index) {
@@ -185,7 +184,7 @@ export default {
              axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
              axios.post('http://localhost:3009/ideas/vote/' + id, {
                  puntaje: self.puntaje,
-                  /* id_usuario: self.user, */
+
              })
              .then(function (response){
                  self.emptyFields() //vaciar campos
@@ -203,7 +202,7 @@ export default {
              text: "Ya puedes ver el nuevo mensaje que realizaste"
               })
              },
-    
+             
         emptyFields(){
            this.newMensaje=''
 
@@ -240,6 +239,27 @@ export default {
              text: "Ya puedes ver el nuevo mensaje que realizaste"
               })
              },
+
+             addVisita(index){
+             var self = this
+              const user = localStorage.getItem("id");
+             const token = localStorage.getItem("token");
+              const id = self.ideas[index].id_idea;
+             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+             axios.post('http://localhost:3009/ideas/visit/' + id, {
+                 visita: self.visita,
+                  /* id_usuario: self.user, */
+             })
+             .then(function (response){
+                 self.emptyFields() //vaciar campos
+                 console.log(response)  
+             })
+
+             .catch(function (error){
+                console.log(error)
+             })
+             },
+    
     
         emptyFields(){
            this.newMensaje=''
@@ -258,26 +278,40 @@ export default {
 
 <style scoped>
 .main {
-    margin-top: -4rem;
-   
+  width: 100%;
+  background-image: url(../assets/backla.png);
+    background-repeat: no-repeat;
+    background-size: 1700px 950px;
+    height: 950px;
 }
+
 #titulo{
     margin: 1rem;
     padding: 1rem;
     color: black;
 }
 .ideasp {
-     border:2px solid black ;
-     width: 30%;
-     padding: 1rem;
-     margin: 1rem;
+   width: 25%;
+  height: 20rem;
+  display: inline-table;
+ /*  border: solid black 2px; */
+  margin: 1rem;
+  padding: 0.3rem;
+  color: black;
+  background-color: white;
 }
  
 
 button{
     padding: 0.7rem;
-    background: lightcyan;
-    color: black;
+     background: rgb(101, 156, 219);
+     border-radius: 20%;
+    color: rgb(255, 255, 255);
+    margin: 1rem;
+    font-size: 1.25rem;
+}
+#idIdeas{
+  color: transparent;
 }
 
 </style>

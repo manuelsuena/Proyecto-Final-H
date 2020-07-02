@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
 
               <!-- Se aplica el cambio de nombre-->
             <vue-headful title="Mis Ideas"
@@ -11,13 +11,30 @@
       
                <!--Elementos HTML  -->
    <h2> Mis Ideas  </h2>
-   <div v-for="(idea, index) in ideas" :key="idea.id">  
-   <p>{{idea.id_idea}}</p>
+<!--      <ul class="ideas" v-for="(idea, index) in ideas" :key="idea.id">
+       <li>
+   <p class="id">{{idea.id_idea}}</p>
    <h3> {{idea.titulo}}</h3>
-   <p> Categoria: {{idea.categoria}}</p>
+   <p> <strong> Categoria: </strong> {{idea.categoria}}</p>
    <p> {{idea.descripcion}}</p>
-   <button @click="showEditUser(index)"> modificar</button>
-       <button @click="deleteIdea(index)"> Eliminar </button>
+       <button @click="showEditUser(index)"> modificar</button>
+       <button @click="deleteIdea(index)"> Eliminar </button>  -->
+  
+  
+    <div class="ideas"   v-for="(idea, index) in ideas" :key="index">  
+
+   <p class="id">{{idea.id_idea}}</p>
+   <h3> {{idea.titulo}}</h3>
+   <p> <strong> Categoria: </strong> {{idea.categoria}}</p>
+   <p> {{idea.descripcion}}</p> 
+<!--         <button @click="showEditUser(index, ideas[0])"> modificar</button>
+       <button @click="deleteIdea(index)"> Eliminar </button>  -->
+
+
+            <button @click="showEditUser(index)"> modificar</button>
+       <button @click="deleteIdea(index)"> Eliminar </button> 
+     
+     </div> 
 
       <div class="editData" v-show="showEdit">
       <p>Modifica tus ideas</p>
@@ -26,18 +43,20 @@
       <label for="name">Categoria:</label>
       <input type="text" v-model="newCategoria" placeholder="categoria" />
       <label for="name">Descripcion:</label>
-      <input type="text" v-model="newDescripcion" placeholder="descripcion" />
-
-      <button @click="updateIdea(index)">Update</button>
+      <textarea type="text" name="newDescripcion" id="" cols="30" rows="10" v-model="newDescripcion"> Descripción</textarea>
+  
+         <button @click="updateIdea()">Update</button>
       <button @click=" closeModal()"> cerrar </button>
-      
-   
-       </div>
-    </div>
-     
+        
 
- <FooterCustom> </FooterCustom>
-  </div>
+         </div>
+
+     <div class="footer">
+    <FooterCustom> </FooterCustom>
+     </div>
+
+   </div>
+
 </template>
 
 <script>
@@ -57,12 +76,17 @@ export default {
     data(){
         return {
             ideas:[],
+            id: null,
+            index: null,
+            id_idea:null,
          
             showEdit: false,
             newTitulo: '',
             newCategoria: '',
             newDescripcion: '',
-            showIdea: false,
+            showIdea: true,
+            
+           /*  showInicio:true, */
         }
     },
 
@@ -87,13 +111,13 @@ export default {
       this.showIdea = true;
     },
 
-        showEditUser(index) {
+        showEditUser(index){
       this.showEdit = true;
       this.newTitulo = this.ideas[index].titulo;
       this.newCategoria = this.ideas[index].categoria;
-      this.newDescripcion = this.ideas[index].descripcion;
+      this.newDescripcion = this.ideas[index].descripcion; 
     },
-        updateIdea(index) {
+        updateIdea() {
       const self = this;
       const data = self.ideas[index].id_idea;
        console.log(data)
@@ -108,6 +132,7 @@ export default {
         .then(function(response) {
              location.reload()
              self.showEdit = false;
+            
         })
           .catch(function (error){
                 console.log(error)
@@ -148,15 +173,49 @@ export default {
 </script>
 
 <style scoped>
-
+.main {
+  width: 100%;
+  background-image: url(../assets/backla.png);
+    background-repeat: no-repeat;
+    background-size: 1700px 1200px;
+    height: 1200px;
+}
+.ideas{
+  width: 30%;
+  height: 20rem;
+  display: inline-table;
+ /*  border: solid black 2px; */
+  margin: 1rem;
+  padding: 0.3rem;
+  color: black;
+  background-color: white;
+}
 
 button{
     padding: 0.7rem;
-    background: lightcyan;
-    color: black;
+     background: rgb(101, 156, 219);
+     border-radius: 15%;
+    color: rgb(255, 255, 255);
+    margin: 1rem;
+    font-size: 1rem;
 }
 h2{
-    color: blue;
+    color: rgb(58, 85, 160);
+    font-size: 2.25rem;
+}
+.id{
+  color: transparent;
+  margin-bottom: -1rem;
+}
+.footer{
+  padding: 3rem;
+}
+h3{
+  font-size: 1.35rem;
+}
+li {
+  list-style:none;
+
 }
 </style>
 

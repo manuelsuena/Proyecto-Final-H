@@ -1,4 +1,4 @@
-<template>
+<template class="body">
   <div class="main">
 
          <!-- Se aplica el cambio de nombre-->
@@ -6,27 +6,31 @@
      description="Página para loggin."/>
 
        <!-- Menú de la página  -->
+       <div class="menus">
       <MenuCustom> </MenuCustom>
-
+        </div>
          
        <!--Elementos HTML  -->
     <div id="input"> 
       <h2> Iniciar sesión </h2>
-     <p v-show="required"> tienes datos aun por rellenar </p>
+     <p  v-show="required"> tienes datos aun por rellenar </p>
      <label for="Email"> Email:</label>
-    <input type="text" placeholder="Escribe tu email"
+     <br>
+    <input  type="text" placeholder="Escribe tu email"
     v-model="email">
     <label for=" password"> Password:</label>
      <input type="password" placeholder="Escribe tu contraseña"
     v-model="contrasena">
+    <br>
 
 <button @click="login()"> Entrar </button>
  </div>
 
  <br>
  <br>
+ <div class="Footer">
  <FooterCustom> </FooterCustom>
-
+  </div>
   </div>
 </template>
 
@@ -78,31 +82,58 @@ export default {
 </script>
 
 <style scoped>
+.body{
+  height: 700px;
+}
 
+.menus{
+  margin-bottom: 10rem;
+}
 .main {
   width: 100%;
+  background-image: url(../assets/backpla.png);
     background-repeat: no-repeat;
+    background-size: 1700px 790px;
+    height: 790px;
 }
 input{
-    padding: 0.7rem;
+    padding: 0.8rem;
     margin: 1rem;
 }
+label {
+   font-size: 1.35rem;
+    display: block;
+    padding: 0,2rem;
+    margin: 0,2rem;
+} 
+/* label{
+  color: black;
+  font-size: 1.35rem;
+  margin-left: -1rem;
+}
+input{
+  margin-bottom: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+} */
 button {
-    padding: 0.5rem;
-    border-radius: 20%;
-    background: rgb(224, 236, 235);
-    color: rgb(41, 21, 21);
+    padding: 1rem;
+    border-radius: 18%;
+    background: rgb(31, 26, 95);
+    color: white;
+    margin: 0.5rem;
 }
 h2{
 
-   color:black;
+   color: white;
 }
+
 
 #input {
     display: inline-block;
-    width: 40%;
+    width: 20%;
     padding: 1rem;
-    border: solid black 2px;
-    background:rgb(178, 208, 219);
+    
 }
+
 </style>

@@ -47,7 +47,7 @@ async function main() {
         titulo varchar(50),
         descripcion text,
         categoria varchar(20),
-        visita int,
+        visita float,
         fecha_creacion datetime,
         fecha_modificacion datetime,
         id_usuario int,
@@ -61,7 +61,7 @@ async function main() {
     CREATE TABLE rating (
         id_rating int  auto_increment,
         cantidad_voto int,
-        puntaje varchar(255) FLOAT(1,1),
+        puntaje float(5,1),
         fecha_creacion datetime,
         fecha_modificacion datetime,
         id_idea int,

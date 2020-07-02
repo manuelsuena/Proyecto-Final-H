@@ -3,12 +3,10 @@ require('dotenv').config();
 const { getConnection } = require('../../db');
 const { voteSchema } = require('../../validations/ideasvalidations');
 
-
-
-// POST - /entries/:id/votes
 async function voteIdea(req, res, next) {
     try {
       const { id } = req.params;
+      const {userid} = req.auth.id;
   
       // Validate payload
       await voteSchema.validateAsync(req.body);

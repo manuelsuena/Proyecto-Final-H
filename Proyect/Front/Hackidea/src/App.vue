@@ -12,12 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #2c3e50;;
+ 
 }
 
-#nav {
-  padding: 30px;
-}
+  #nav {
+  margin: 0.5rem;
+} 
 
 #nav a {
   font-weight: bold;
@@ -26,5 +27,7 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+    margin: 10rem;
+    padding: 2rem;
 }
 </style>

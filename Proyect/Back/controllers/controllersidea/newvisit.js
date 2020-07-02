@@ -1,52 +1,36 @@
 require('dotenv').config();
-
 const { getConnection } = require('../../db');
-const { generateError } = require('../../helpers');
 
-async function visitNew(req, res, next) {
-  let connection;
-  try {
-    connection = await getConnection();
-    const {id} = req.params;
-    const {userid} = req.auth.id;
 
-    const [
-      result
-    ] = await connection.query(
-      `SELECT id_usuario FROM usuario WHERE activo=1 AND id_usuario=?`,
-      [userid]
-    );
+async function visitNew (req, res, next) {
 
-    if (result.length) {
-      throw generateError(
-        'Un usuario oculto no puede ver idea',
-        401
+    //Meter una nueva visita
+    try {
+    
+  
+      const {id } = req.params
+  
+      const connection = await getConnection();
+    const [ showVisit] = await connection.query(
+          'SELECT visita FROM idea WHERE id_idea=?',
+          [id]
+        );
+        const nuevaVisita = showVisit[0].visita + 1;
+        await connection.query(
+        'UPDATE idea SET visita = ? where id_idea = ?',
+  
+        [nuevaVisita,  id]
       );
-    }
-
-    const [vista] = await connection.query(
-      `SELECT id_idea FROM idea WHERE id_idea=?`,
-      [id]
-    );
-
-    if (!vista.length) {
-      throw (
-        (generateError(`La idea no existe`), 404)
-      );
-    }
-
-    await connection.query('UPDATE idea SET visita=? WHERE id_idea=?', [
-      vista[0].visita + 1,
-      [id]
-    ]);
-
-    res.send({ status: 'ok', data: vista[0] });
-  } catch (error) {
-    next(error);
-  } finally {
-    if (connection) {
+  
       connection.release();
+  
+      res.send({
+        status: 'ok',
+        message: 'Nueva visita'
+      });
+    } catch (error) {
+      next(error);
     }
   }
-}
+  
 module.exports = { visitNew };

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
 
               <!-- Se aplica el cambio de nombre-->
             <vue-headful title="Register"
@@ -134,33 +134,43 @@ export default {
 </script>
 
 <style scoped>
+.main {
+  width: 100%;
+  background-image: url(../assets/backla.png);
+    background-repeat: no-repeat;
+    background-size: 1700px 950px;
+    height: 950px;
+}
 input{
     padding: 0.8rem;
     margin: 1rem;
 }
 label {
-    padding: 1rem;
-    margin: 1rem;
+    font-size: 1.15rem;
+    display: block;
+    padding: 0,2rem;
+    margin: 0,2rem;
+    color: rgb(15, 15, 128);
 } 
 #input {
+    display: block;
     margin-left: 1.5rem;
 }
 #contenedor {
     display: inline-block;
     width: 35%;
     padding: 2rem;
-    border: solid black 2px;
-    background: lavenderblush;
+/*     border: solid black 2px; */
     margin: 1rem;
     margin-bottom: 2rem;
 }
 button{
-    padding: 0.7rem;
-    background: lightcyan;
-    color: black;
+    padding: 1rem;
+    background: blue;
+    color: white;
 }
 h2{
-    color: blue;
+    color: black;
 }
 </style>
 

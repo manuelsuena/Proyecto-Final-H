@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
 
               <!-- Se aplica el cambio de nombre-->
             <vue-headful title="NewIdea"
@@ -10,22 +10,24 @@
     
                <!--Elementos HTML  -->
 
-                <h2> Crear nueva idea</h2>
+                <h2> Crear nueva idea.</h2>
                 <div id="contenedor">
                <div id="input">
              <p v-show="required"> tienes datos aun por rellenar </p>
 
                <Label for="categoria"> Categoria: </Label>
-             <input type="categoria" name="categoria" placeholder="categoria de la idea"
+             <input type="categoria"  minlength="2" maxlength="20" name="categoria" placeholder="categoria de la idea"
              v-model="categoria">
 
                 <Label for="titulo"> Título: </Label>
-             <input type="titulo" name="titulo" placeholder="titulo de la idea"
+             <input type="titulo" minlength="2" maxlength="50" name="titulo" placeholder="titulo de la idea"
              v-model="titulo">
 
              <Label for="descripcion"> Descripción: </Label>
-             <input type="descripcion" name="descripcion" placeholder="descripcion de la idea"
-             v-model="descripcion">
+             <textarea id="descripcion" name="descripcion" placeholder="descripcion de la idea"
+             v-model="descripcion" cols="100" rows="10"> Descripción</textarea>
+            <!--  <input type="text" minlength="2" maxlength="500" name="descripcion" placeholder="descripcion de la idea"
+             v-model="descripcion"> -->
               
               </div>
  
@@ -33,8 +35,10 @@
                 Agregar
         </button>
         </div>
-          
- <FooterCustom> </FooterCustom>
+          <div class="footer">
+      <FooterCustom> </FooterCustom>
+          </div>
+
       </div>
 </template>
 
@@ -122,7 +126,54 @@ export default {
 </script>
 
 <style scoped>
+.main {
+  width: 100%;
+  background-image: url(../assets/backla.png);
+    background-repeat: no-repeat;
+    background-size: 1700px 950px;
+    height: 950px;
+}
 input{
+    padding: 0.8rem;
+    margin: 1rem;
+}
+label {
+    font-size: 1.15rem;
+    display: block;
+    padding: 0,2rem;
+    margin: 0,2rem;
+    color: rgb(15, 15, 128);
+} 
+#input {
+    display: block;
+    margin-left: 1.5rem;
+}
+#contenedor {
+    display: inline-block;
+    width: 35%;
+    padding: 2rem;
+/*     border: solid black 2px; */
+    margin: 1rem;
+    margin-bottom: 2rem;
+}
+button{
+    border-radius: 20%;
+    padding: 1rem;
+    background: rgb(0, 17, 255);
+    color: white;
+    margin-top: 2rem;
+}
+h2{
+    color: rgb(25, 94, 223);
+}
+.footer{
+    margin-top: 4rem;
+}
+textarea{
+    margin-top: 0.7rem;
+    margin-left: -10rem;
+}
+/* input{
     padding: 0.8rem;
     margin: 1rem;
 }
@@ -149,6 +200,6 @@ button{
 }
 h2{
     color: blue;
-}
+} */
 </style>
 
