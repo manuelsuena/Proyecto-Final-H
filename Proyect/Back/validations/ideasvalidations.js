@@ -48,15 +48,14 @@ const ideaSchema = joi.object().keys({
     puntaje: joi.number()
       .min(1)
       .max(5)
-      .integer()
-      .required()
+      .required() 
       .error(
         generateError(
           'El campo voto debe existir y ser un número entre 1 y 5',
           400
         )
       )
-  });
+  }); 
 
 
   const mensajeSchema = joi.object().keys({

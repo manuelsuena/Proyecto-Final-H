@@ -17,7 +17,7 @@
    <p> Categoria: {{idea.categoria}}</p>
    <p> {{idea.descripcion}}</p>
    <p> Visitas: {{idea.visita}}</p>
-   <p> Rating: {{idea.puntaje}}</p>
+   <p> Rating: {{idea.avgRating}}</p>
    <button @click="showIdeas(index)" > ver </button>
    
 
@@ -46,8 +46,8 @@
              <div class="rating" v-show="newRating">
 
              <Label for="voto"> Voto: </Label>
-             <input type="text" name="voto" placeholder="nuevo voto"
-             v-model="puntaje">
+             <input type="number" id="puntajes" name="puntajes" min="0" max="5" step="0.5" placeholder="nuevo voto"
+             v-model="puntajes">
              <button @click="addVoto(index)"> enviar </button>
             </div>
      
@@ -95,7 +95,7 @@ export default {
             mensajes: '',
             makeNewComment: false,
             newRating: false,
-            puntaje: '',
+            puntajes: '',
             visita: '',
         }
     },
@@ -110,7 +110,7 @@ export default {
         .get('http://localhost:3009/ideas')
         .then(function(response) {
           self.ideas = response.data.data;
-          console.log(self.ideas[index].id_idea)
+          console.log(self.ideas)
         })
         .catch(function(error) {
           console.error(error.response.data.message);
@@ -183,11 +183,10 @@ export default {
               const id = self.ideas[index].id_idea;
              axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
              axios.post('http://localhost:3009/ideas/vote/' + id, {
-                 puntaje: self.puntaje,
+               puntaje: self.puntajes,
 
              })
              .then(function (response){
-                 self.emptyFields() //vaciar campos
                  console.log(response)  
                   location.reload()
              })

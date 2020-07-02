@@ -1,17 +1,17 @@
 require('dotenv').config();
 
 const { getConnection } = require('../../db');
-const { voteSchema } = require('../../validations/ideasvalidations');
+ const { voteSchema } = require('../../validations/ideasvalidations'); 
 
 async function voteIdea(req, res, next) {
     try {
       const { id } = req.params;
-      const {userid} = req.auth.id;
+     
   
       // Validate payload
-      await voteSchema.validateAsync(req.body);
+      await voteSchema.validateAsync(req.body); 
   
-      const { voto } = req.body;
+      const { puntaje } = req.body;
   
       const connection = await getConnection();
   
@@ -46,7 +46,7 @@ async function voteIdea(req, res, next) {
          `INSERT INTO rating (id_idea, puntaje, fecha_creacion, id_usuario) 
         VALUES(?, ?, now(), ?)`, 
         
-        [id, voto, req.auth.id]
+        [id, puntaje, req.auth.id]
       );
   
       connection.release();
