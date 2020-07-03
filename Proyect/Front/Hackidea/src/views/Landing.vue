@@ -8,17 +8,27 @@
           <!-- Menú de la página  -->
       <MenuCustom> </MenuCustom>
     
-      
+      <div id="buscar">
+  <label for="bySearch">Buscar por categoria: </label>
+  <input
+    v-model="search"
+    id="search"
+    name="bySearch"
+    type="search"
+    placeholder="Búsqueda por categoria"
+  />
+</div>
                <!--Elementos HTML  -->
+         
    <h2 id="titulo"> Página principal de las ideas o preguntas </h2>
-   <div class="ideasp" v-for="(idea, index) in ideas" :key="idea.id">  
+   <div class="ideasp" v-for="(idea, index) in filteredIdea" :key="idea.id">  
    <p id="idIdeas"> {{idea.id_idea}}</p>
    <h3> {{idea.titulo}}</h3>
    <p> Categoria: {{idea.categoria}}</p>
    <p> {{idea.descripcion}}</p>
    <p> Visitas: {{idea.visita}}</p>
    <p> Rating: {{idea.avgRating}}</p>
-   <button @click="showIdeas(index)" > ver </button>
+   <button  @click="showIdeas(index)" > ver </button>
    
 
       <div class="IdeaInd" v-show="showIdeaInd">
@@ -42,6 +52,7 @@
         <p>{{msg.mensaje}}</p>
        </div>
         </div>
+          </div>
            
              <div class="rating" v-show="newRating">
 
@@ -58,7 +69,7 @@
              <input type="text" name="mensaje" placeholder="nuevo mensaje"
              v-model="mensajes">
              <button @click="addMensaje(index)"> enviar </button>
-            </div>
+          
 
               </div>
             
@@ -97,10 +108,26 @@ export default {
             newRating: false,
             puntajes: '',
             visita: '',
+            search: '',
+            selectedId: Number,
         }
     },
 
-    // Funcióin validar y agregar usuarios
+computed:{
+  filteredIdea(){
+   // Si search esta vacío
+   if(!this.search){
+   return this.ideas
+   }
+  // si search tiene algo busca por categoria.
+
+      return this.ideas.filter(
+       ideas =>
+          ideas.categoria.toLowerCase().includes(this.search.toLowerCase())
+      );
+    },
+   },
+    // Funciones ver ideas
     methods: {
         getIdea() {
       const self = this;
@@ -116,17 +143,19 @@ export default {
           console.error(error.response.data.message);
         });
     },
-  
+
+     // mostrar modal
           showIdeas(index) {
-     this.showIdeaInd = true,
       this.getIdeaInd(index);
       this.getComentarios(index);
       this.getUserInd(index);
       this. addVisita(index);
+       this.showIdeaInd = true;
        console.log(msg)
 
     },
-
+    
+     // Funciones ver idea individual
       getIdeaInd(index) {
       const self = this;
        const id = self.ideas[index].id_idea;
@@ -141,6 +170,7 @@ export default {
           console.error(error.response.data.message);
         });
     },
+     // Funciones ver info del usuario de la idea
           getUserInd(index) {
       const self = this;
        const id = self.ideas[index].id_idea;
@@ -155,6 +185,7 @@ export default {
           console.error(error.response.data.message);
         });
     },
+     // Funciones ver comentarios de la idea
        getComentarios(index) {
       const self = this;
        const id = self.ideas[index].id_idea;
@@ -170,12 +201,14 @@ export default {
           console.error(error.response.data.message);
         });
     },
+     // Funcion ver modal voto
          showVoto(index) {
 
 
                this.newRating = true;
     }, 
    
+    // Funciones votar
             addVoto(index){
              var self = this
               const user = localStorage.getItem("id");
@@ -211,6 +244,7 @@ export default {
 
                this.makeNewComment = true;
     }, 
+     // Funciones agregar comentario
    
             addMensaje(index){
              var self = this
@@ -239,6 +273,7 @@ export default {
               })
              },
 
+             // Funciones agregar visita
              addVisita(index){
              var self = this
               const user = localStorage.getItem("id");
@@ -264,11 +299,13 @@ export default {
            this.newMensaje=''
 
         },
+         // Funciones cerrar modal
         closeModal(){
                this.showIdeaInd = false;
         }
 
     },
+     // Para crear las ideas
       created(){
     this.getIdea();
 }

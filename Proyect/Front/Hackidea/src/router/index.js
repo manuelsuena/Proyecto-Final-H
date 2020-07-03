@@ -75,7 +75,7 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ '../views/MisIdeas.vue'),
     meta: {
       //RUTA PRIVADA
-      allowAnonymous: false,
+      allowAnonymous: true,
       },
   },
   {
@@ -101,7 +101,7 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ '../views/Newidea.vue'),
     meta: {
       //RUTA PRIVADA
-      allowAnonymous: false,
+      allowAnonymous: true,
       },
 
   },

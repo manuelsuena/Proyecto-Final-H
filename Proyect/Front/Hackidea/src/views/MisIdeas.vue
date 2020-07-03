@@ -21,7 +21,7 @@
        <button @click="deleteIdea(index)"> Eliminar </button>  -->
   
   
-    <div class="ideas"   v-for="(idea, index) in ideas" :key="index">  
+    <div class="ideas"   v-for="(idea, index) in ideas" :key="idea.id">  
 
    <p class="id">{{idea.id_idea}}</p>
    <h3> {{idea.titulo}}</h3>
@@ -34,7 +34,6 @@
             <button @click="showEditUser(index)"> modificar</button>
        <button @click="deleteIdea(index)"> Eliminar </button> 
      
-     </div> 
 
       <div class="editData" v-show="showEdit">
       <p>Modifica tus ideas</p>
@@ -45,11 +44,13 @@
       <label for="name">Descripcion:</label>
       <textarea type="text" name="newDescripcion" id="" cols="30" rows="10" v-model="newDescripcion"> Descripción</textarea>
   
-         <button @click="updateIdea()">Update</button>
+         <button @click="updateIdea(index)">Update</button>
       <button @click=" closeModal()"> cerrar </button>
         
 
          </div>
+            </div> 
+
 
      <div class="footer">
     <FooterCustom> </FooterCustom>
@@ -66,7 +67,6 @@ import FooterCustom from '@/components/FooterCustom.vue'
 import axios from 'axios'
 import IdeasCustom from '@/components/IdeasCustom.vue'
 import Swal from "sweetalert2";
-
 export default {
     name: 'MisIdeas',
     components:{
@@ -89,7 +89,6 @@ export default {
            /*  showInicio:true, */
         }
     },
-
     // Funcióin validar y agregar usuarios
     methods: {
         getIdea() {
@@ -110,14 +109,13 @@ export default {
           showIdeas(index) {
       this.showIdea = true;
     },
-
         showEditUser(index){
       this.showEdit = true;
       this.newTitulo = this.ideas[index].titulo;
       this.newCategoria = this.ideas[index].categoria;
       this.newDescripcion = this.ideas[index].descripcion; 
     },
-        updateIdea() {
+        updateIdea(index) {
       const self = this;
       const data = self.ideas[index].id_idea;
        console.log(data)
@@ -142,7 +140,6 @@ export default {
              title: 'Idea modificada',
              text: "Ya puedes ver la modificación de tu idea."
               })
-
         },
         closeModal(){
           this.showEdit = false;
@@ -190,7 +187,6 @@ export default {
   color: black;
   background-color: white;
 }
-
 button{
     padding: 0.7rem;
      background: rgb(101, 156, 219);
@@ -215,7 +211,5 @@ h3{
 }
 li {
   list-style:none;
-
 }
 </style>
-
